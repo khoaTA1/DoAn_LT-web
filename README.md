@@ -1,5 +1,5 @@
 # ĐỒ ÁN LẬP TRÌNH WEB NHÓM 20
-#----------------------------
+----------------------------------
 ## Thông tin chung
 * Đề tài: xây dựng website bán đồ điện tử, công nghệ điện máy đỏ sử dụng công nghệ spring boot + JSP/JSTL + bootstrap + JPA + SQLserver + decorator sitemesh + JWT
 * Thành viên nhóm:
