@@ -4,14 +4,14 @@
 
 ## Cấu trúc gói contoller
 PKG  
- |
- |-----controller
- |         |------ CategoryController.java
- |         |------ UserController.java
- |         |------ UploadImageController.java
- |         |------ ItemController.java
- |
- |-----Application.java
+ |  
+ |  -----controller  
+ |         |------ CategoryController.java  
+ |         |------ UserController.java  
+ |         |------ UploadImageController.java  
+ |         |------ ItemController.java  
+ |  
+ |-----Application.java  
 
  ## Chi tiết các thành phần controller
  ### 1> UserController
