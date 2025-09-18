@@ -5,11 +5,11 @@
 ## Cấu trúc gói contoller
 PKG  
  |  
- |  -----controller  
- |         |------ CategoryController.java  
- |         |------ UserController.java  
- |         |------ UploadImageController.java  
- |         |------ ItemController.java  
+ |    -----controller  
+ |            |------ CategoryController.java  
+ |            |------ UserController.java  
+ |            |------ UploadImageController.java  
+ |            |------ ItemController.java  
  |  
  |-----Application.java  
 
