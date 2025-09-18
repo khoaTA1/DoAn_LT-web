@@ -19,8 +19,8 @@ PKG
  ### 1> UserController
  * Xử lý các request từ front end liên quan đến người dùng.
  * Chi tiết các phương thức (chưa đầy đủ):
-  * GET(general/login) register() => chuyển tiếp đến trang login.jsp
-  * POST(general/login) register(@RequestParam("username"), @RequestParam("password")
+   * GET(general/login) register() => chuyển tiếp đến trang login.jsp
+   * POST(general/login) register(@RequestParam("username"), @RequestParam("password"))
 ```
 => nếu để trống 1 trong 2 trường dữ liệu thì trả lại trang login.jsp với "msg" = "Tên đăng nhập hoặc mật khẩu không thể để trống."
 => nếu không tìm thấy user hoặc sai mật khẩu thì trả lại trang login.jsp với "msg" = "Sai tên đăng nhập hoặc mật khẩu."
