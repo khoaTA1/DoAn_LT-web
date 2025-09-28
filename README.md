@@ -6,7 +6,8 @@
 ```
 PKG  
  |  
- | ----- controller  
+ | ----- controller
+ |           | ------ RedirectController.java
  |           | ------ CategoryController.java  
  |           | ------ UserController.java  
  |           | ------ UploadImageController.java  
@@ -16,17 +17,26 @@ PKG
 ```
 
 ## Chi tiết các thành phần controller
-### 1> UserController
-* Xử lý các request từ front end liên quan đến người dùng.
+### 1> RedirectController
+* Xử lý các request chuyển tiếp trang.
 * Chi tiết các phương thức (chưa đầy đủ):
-  * GET(general/login) login()
+  * GET(redirect/login) rlogin()
   ```
   Tham số truyền vào: không
   
   Trả về: chuyển tiếp đến trang login.jsp
   ```
   
-  * POST(general/login) login()  
+  * GET(redirect/register) register()  
+  ```
+  Tham số truyền vào: không
+
+  Trả về: chuyển tiếp đến trang register.jsp
+  ```
+### 2> UserController
+* Xử lý các request từ front end liên quan đến người dùng.
+* Chi tiết các phương thức (chưa đầy đủ):  
+  * POST(user/login) login()  
   ```
   Tham số truyền vào:  
         @RequestParam("username"),
@@ -38,14 +48,7 @@ PKG
         => nếu đăng nhập thành công, nếu user có roleid là 1 thì chuyển đến trang home.jsp của user, nếu roleid là 3 thì chuyển đến home của admin.
   ```
   
-  * GET(general/register) register()  
-  ```
-  Tham số truyền vào: không
-
-  Trả về: chuyển tiếp đến trang register.jsp
-  ```
-  
-  * POST(general/register) register()
+  * POST(user/register) register()
   ```
   Tham số truyền vào:
         @RequestParam(name = "username", required = true),  
@@ -57,6 +60,6 @@ PKG
 
   Trả về: (từ từ update)
   ```
- ### 2> CategoryController
+ ### 3> CategoryController
  * Xử lý các request từ front end liên quan đến các phân loại vật phẩm (phân loại laptop, phân loại điện thoại thông minh, phân loại tivi, phân loại máy giặt,...).
  * Chi tiết các phương thức (chưa đầy đủ):
