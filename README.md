@@ -2,4 +2,16 @@
 
 * Tấn Phát
 
-* Tạo trước 3 entity và repo: User, Category (thể loại đồ điện tử bán trên web), password (tách riêng ra khỏi User, có chứa thêm "salt" lấy từ hàm System.currentTimeMillis() để băm mật khẩu lưu trong cơ sở dữ liệu).
+* Gồm những entity sau:
+  * User (dựa trên code của Khoa đã test trong mục tham khảo).
+  * Password (dựa trên code của Khoa đã test trong mục tham khảo).
+  * Category (gồm các trường: id (tạo tự động), categoryName, icon).
+  * Item (lớp trừu tượng, gồm các trường: id (tạo tự động), name, price, image, discount, noiSanXuat, brand).
+  * washer (kế thừa từ Item, gồm các trường: loaiMayGiat, hieuSuat, khoiLuongGiat).
+  * Fridge (kế thừa từ Item, gồm các trường: kieuTu, dungTich, congSuat).
+  * Tivi (kế thừa từ Item, gồm các trường: manHinh, doPhanGiai, tanSoQuet).
+  * airCon (kế thừa từ Item, gồm các trường: loaiMay, inverter (boolean), congSuatLamLanh).
+  * stove (kế thừa từ Item, gồm các trường: loaiBep, tongCongSuat, kichThuocVungNau).
+  * Cooker (kế thừa từ Item, gồm các trường: dungTich, congSuat).
+  * vacuum (kế thừa từ Item, gồm các trường: loaiMay, congSuatHut, doOnCaoNhat).
+  * fan (kế thừa từ Item, gồm các trường: loaiQuat, congSuatMucGio, canhQuat).
