@@ -60,6 +60,16 @@ PKG
 
   Trả về: (từ từ update)
   ```
+  * quên mật khẩu
+  * cập nhật thông tin tài khoản
+  * 
  ### 3> CategoryController
  * Xử lý các request từ front end liên quan đến các phân loại vật phẩm (phân loại laptop, phân loại điện thoại thông minh, phân loại tivi, phân loại máy giặt,...).
  * Chi tiết các phương thức (chưa đầy đủ):
+   * Tìm kiếm phân trang
+
+ ### 4> ItemController
+ * Xử lý các request từ front end liên quan đến các sản phẳm chi tiết.
+ * Chi tiết các phương thức (chưa đầy đủ):
+   * Tìm kiếm tên (list có phân trang)
+   * Tìm kiếm theo phân loại (category) (list có phân trang)
