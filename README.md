@@ -6,7 +6,7 @@
   * User (dựa trên code của Khoa đã test trong mục tham khảo).
   * Password (dựa trên code của Khoa đã test trong mục tham khảo).
   * Category (gồm các trường: id (tạo tự động), categoryName, icon).
-  * Item (lớp trừu tượng, gồm các trường: id (tạo tự động), name, price, image, discount, noiSanXuat, brand).
+  * Item (lớp trừu tượng, gồm các trường: id (tạo tự động), categoryId, name, price, image, discount, noiSanXuat, brand).
   * washer (kế thừa từ Item, gồm các trường: loaiMayGiat, hieuSuat, khoiLuongGiat).
   * Fridge (kế thừa từ Item, gồm các trường: kieuTu, dungTich, congSuat).
   * Tivi (kế thừa từ Item, gồm các trường: manHinh, doPhanGiai, tanSoQuet).
