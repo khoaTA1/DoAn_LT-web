@@ -9,8 +9,13 @@
   * Nguyễn Tấn Phát
  
 ## Phát triển
-* Phân chia công việc:
+* Phân chia công việc theo tầng:
   * Front end (Giang): cấu trúc thư mục chứa các file jsp, trang trí giao diện web, làm việc với controller.
   * Controller (Khoa): xử lí yêu cầu từ người dùng (front end), làm việc với front end và service (implement).
   * Service, implement (Đạt): xử lí dữ liệu thông qua các phương thức đã được phát triển ở tầng DAO, làm việc với controller và DAO.
   * Data access object (Phát): làm việc với cơ sở dữ liệu và service. implement, cấu hình kết nối cơ sở dữ liệu và JPA spring boot trên file application.properties.
+* Phân chia công việc theo tính năng:
+  * Hương Giang: Giao diện web.
+  * Anh Khoa: Tính năng đăng nhập và đăng ký bằng spring security, khôi phục mật khẩu bằng mã otp gửi về email đã đăng ký.
+  * Tấn Phát: Tính năng bình luận đánh giá.
+  * Minh Đạt: Tính năng thanh toán.
