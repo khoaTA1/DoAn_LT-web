@@ -3,6 +3,9 @@ package PKG.controller;
 import java.io.File;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,38 +23,22 @@ public class CategoryController {
 	@Autowired
 	CategoryService cateserv;
 	
-	@PostMapping("add")
-	public String addCate(ModelMap model, @RequestParam("catename") String newName,
-			@RequestParam(name = "icon") MultipartFile newIcon) {
-
-		Category cate = new Category();
+	// duyệt có phân trang
+	@PostMapping("list")
+	public String listCate(ModelMap model, @RequestParam(name = "page", defaultValue = "1") int currentPage,
+			@RequestParam(name = "resultPerPage", defaultValue = "10") int rsPerPage) {
 		
-		cate.setCategoryName(newName);
-
-		try {
-			if (newIcon.getSize() > 0) {
-
-				// Lưu ảnh mới
-				String originalFileName = newIcon.getOriginalFilename();
-
-				int index = originalFileName.lastIndexOf(".");
-
-				String ext = originalFileName.substring(index + 1);
-				String fileName = System.currentTimeMillis() + "." + ext;
-
-				String filePath = DirectoryPath.dir + "\\categoryIcons\\" + fileName;
-				newIcon.transferTo(new File(filePath));
-				cate.setIcon("categoryIcons/" + fileName);
-				
-				cateserv.save(cate);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		Pageable pageable = PageRequest.of(currentPage - 1, rsPerPage);
+		Page<Category> pageCategory = cateserv.findAll(pageable);
+		
+		model.addAttribute("listCate", pageCategory.getContent());
+		model.addAttribute("totalPage", pageCategory.getTotalPages());
+		model.addAttribute("page", currentPage);
+		
 		return "";
 	}
-
+	
+	// cập nhật 1 category
 	@PostMapping("update")
 	public String updateCate(ModelMap model, @RequestParam("catename") String newName,
 			@RequestParam("cateid") int cateId,
@@ -78,6 +65,39 @@ public class CategoryController {
 						oldIcon.delete();
 					}
 				}
+
+				// Lưu ảnh mới
+				String originalFileName = newIcon.getOriginalFilename();
+
+				int index = originalFileName.lastIndexOf(".");
+
+				String ext = originalFileName.substring(index + 1);
+				String fileName = System.currentTimeMillis() + "." + ext;
+
+				String filePath = DirectoryPath.dir + "\\categoryIcons\\" + fileName;
+				newIcon.transferTo(new File(filePath));
+				cate.setIcon("categoryIcons/" + fileName);
+				
+				cateserv.save(cate);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "";
+	}
+	
+	//================= dự tính bỏ ============================================
+	@PostMapping("add")
+	public String addCate(ModelMap model, @RequestParam("catename") String newName,
+			@RequestParam(name = "icon") MultipartFile newIcon) {
+
+		Category cate = new Category();
+		
+		cate.setCategoryName(newName);
+
+		try {
+			if (newIcon.getSize() > 0) {
 
 				// Lưu ảnh mới
 				String originalFileName = newIcon.getOriginalFilename();

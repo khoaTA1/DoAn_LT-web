@@ -43,14 +43,6 @@ public class UserController {
 	@Autowired
 	AccountAuthService AAS;
 
-	/*
-	 * 	@RequestParam(name = "password") String passwd,
-		@RequestParam(name = "confirmPassword") String confirm,
-		@Validated @RequestParam(name = "username") String usern,
-		@Validated @RequestParam(name = "email") String email, BindingResult rs,
-		@RequestParam(name = "fullName") String fname,
-		@RequestParam(name = "phone") String phone
-	 */
 	@PostMapping("register")
 	public String register(ModelMap model, @RequestParam(name = "username") String usern,
 			@RequestParam(name = "password") String passwd,
