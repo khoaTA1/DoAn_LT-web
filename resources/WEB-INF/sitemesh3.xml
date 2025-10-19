@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+  <mapping path="/" decorator="/WEB-INF/decorator/guest_layout.jsp"/>
+  <mapping path="/home*" decorator="/WEB-INF/decorator/guest_layout.jsp"/>
+  <mapping path="/product*" decorator="/WEB-INF/decorator/guest_layout.jsp"/>
+  <mapping path="/auth/*" decorator="/WEB-INF/decorator/guest_layout.jsp"/>
+  <mapping path="/user/*" decorator="/WEB-INF/decorator/user_layout.jsp"/>
+  <mapping path="/cart*" decorator="/WEB-INF/decorator/user_layout.jsp"/>
+  <mapping path="/checkout*" decorator="/WEB-INF/decorator/user_layout.jsp"/>
+  <mapping path="/orders*" decorator="/WEB-INF/decorator/user_layout.jsp"/>
+  <mapping path="/admin*" decorator="/WEB-INF/decorator/admin_layout.jsp"/>
+  <mapping path="/*" decorator="/WEB-INF/decorator/guest_layout.jsp"/>
+</sitemesh>

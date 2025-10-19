@@ -1,0 +1,7 @@
+:root{--brand-red:#b30000;--brand-red-dark:#8a0000}
+.header-brand{color:var(--brand-red);font-weight:700}
+.btn-brand{background:var(--brand-red);color:#fff}
+.sidebar{background:var(--brand-red);width:240px;min-height:100vh}
+.sidebar a{color:#fff;display:block;padding:.6rem .8rem}
+.sidebar a:hover{background:var(--brand-red-dark)}
+@media(max-width:992px){.sidebar{position:fixed;top:56px;left:-240px;height:calc(100% - 56px);z-index:1040}.sidebar.show{left:0}}
