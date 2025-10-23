@@ -1,6 +1,7 @@
 package PKG.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,5 +14,7 @@ import PKG.entity.Category;
 public interface CategoryRepo extends JpaRepository<Category, Integer> {
 	List<Category> findByCategoryNameContaining(String name);
 	Page<Category> findByCategoryNameContaining(String name, Pageable pageable);
-	Page<Category> findAllByUid(int uid, Pageable pageable);
+	//Page<Category> findAllByUid(int uid, Pageable pageable);
+	List<Category> findByCategoryNameContainingIgnoreCase(String catename);
+	//Optional<Category> findByCategoryNameContainingIgnoreCase(String catename);
 }

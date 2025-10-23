@@ -12,6 +12,7 @@ public class JSPStaticConfig implements LifecycleListener {
 	}
 
 	private final String subPath = "/META-INF/resources";
+	//private final String subPath = "/webapp";
 	
 	@Override
 	public void lifecycleEvent(LifecycleEvent event) {

@@ -4,9 +4,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 @Controller
 @RequestMapping("/")
 public class RedirectController {
+	
+	@GetMapping("redirect/test")
+	public String rtest() {
+		return "test";
+	}
+	
+	@GetMapping({"", "webpage"})
+	public String rwebpage() {
+		
+		return "redirect:/item/getall";
+	}
 
 	@GetMapping("redirect/login")
 	public String rlogin() {
@@ -20,8 +32,24 @@ public class RedirectController {
 		return "register";
 	}
 	
-	@GetMapping("redirect/forgetPassw")
+	@GetMapping("redirect/gencode")
+	public String rgencode() {
+		return "forgotpassw/gencodepage";
+	}
+	
+	@GetMapping("redirect/entercode")
+	public String rentercode() {
+		return "forgotpassw/entercodepage";
+	}
+	
+	@GetMapping("redirect/adminpage")
 	public String rforgetPassw() {
-		return "forgetpassw";
+		return "adminpage";
+	}
+	
+	@GetMapping("user/profile")
+	public String rUserProfile() {
+		
+		return "/user/profile-page";
 	}
 }

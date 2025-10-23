@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,6 +16,12 @@ import PKG.service.CategoryService;
 public class CategoryServiceImpl implements CategoryService {
 	@Autowired
 	CategoryRepo caterepo;
+
+	
+	@Override
+	public List<Category> findByCategoryNameContainingIgnoreCase(String catename) {
+		return caterepo.findByCategoryNameContainingIgnoreCase(catename);
+	}
 
 	@Override
 	public List<Category> findByCategoryNameContaining(String name) {
@@ -42,12 +47,6 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Category> findAll() {
 		return caterepo.findAll();
 	}
-	
-
-	@Override
-	public Page<Category> findAllByUid(int uid, Pageable pageable) {
-		return caterepo.findAllByUid(uid, pageable);
-	}
 
 	@Override
 	public Optional<Category> findById(Integer id) {
@@ -60,19 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public <S extends Category> boolean exists(Example<S> example) {
-		return caterepo.exists(example);
-	}
-
-	@Override
 	public long count() {
 		return caterepo.count();
 	}
-
-	@Override
-	public void deleteById(Integer id) {
-		caterepo.deleteById(id);
-	}
-	
-	
 }

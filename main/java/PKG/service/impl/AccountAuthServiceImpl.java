@@ -36,15 +36,16 @@ public class AccountAuthServiceImpl implements AccountAuthService{
     } 
 	
 	// Đăng ký tài khoản mới: 
-	// Truyền vào username và password
+	// Truyền vào username, email và password
     @Override
-	public boolean registerUser(String username, String password) {
+	public boolean registerUser(String username, String password, String email) {
     	try {
     		// Mã hóa mật khẩu
             String hashedPassword = passencoder.encode(password);
             
             User newUser = new User();
             newUser.setUserName(username);
+            newUser.setEmail(email);
             newUser.setRole("USER");
             userrepo.save(newUser);
              
@@ -77,5 +78,30 @@ public class AccountAuthServiceImpl implements AccountAuthService{
     	} else {
     		throw new RuntimeException("Chứng chỉ không hợp lệ");
     	}
+    }
+    
+    // cập nhật mật khẩu
+    
+	@Override
+	public boolean changePass(String username, String password) {
+    	try {
+    		// Mã hóa mật khẩu
+            String hashedPassword = passencoder.encode(password);
+             
+            // Lấy id của user
+            Long userid = userrepo.findByUserName(username).get().getId();
+            
+            // Lưu thông tin mật khẩu vào bảng passwords
+            Password passwordEntity = new Password();
+            passwordEntity.setUserId(userid);
+            passwordEntity.setHashedPasswd(hashedPassword);
+            
+            passrepo.save(passwordEntity);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		return false;
+    	}
+        
+    	return true;
     }
 }

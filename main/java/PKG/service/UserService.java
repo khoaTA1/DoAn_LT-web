@@ -35,4 +35,6 @@ public interface UserService {
 
 	Optional<User> findByUserName(String uname);
 
+	Optional<User> findByEmail(String email);
+
 }
