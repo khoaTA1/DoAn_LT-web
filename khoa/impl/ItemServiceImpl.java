@@ -1,11 +1,12 @@
 package PKG.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -67,8 +68,11 @@ public class ItemServiceImpl implements ItemService {
 	// khởi tạo map cập nhật item
 	private Map<Integer, BiFunction<Map<String, Object>, String, Optional<? extends Item>>> updateMap;
 	
-	// khởi tạo map tìm kiếm ánh xạ từ category id
-	private Map<Integer, Function<Pageable, Page<? extends Item>>> findMapByCateId;
+	// khởi tạo map tìm kiếm ánh xạ từ category id có phân trang
+	private Map<Integer, Function<Pageable, Page<? extends Item>>> findMapByCateIdPagination;
+	
+	// khởi tạo map tìm kiếm ánh xạ từ category id không phân trang
+		private Map<Integer, Supplier<List<? extends Item>>> findMapByCateId;
 	
 	// khởi tạo map tìm kiếm ánh xạ từ category id và item id
 	private Map<Integer, Function<Long, Optional<? extends Item>>> findMapByItemId;
@@ -85,14 +89,24 @@ public class ItemServiceImpl implements ItemService {
 		cateid = 7 => Máy hút bụi
 		cateid = 8 => Máy giặt
 		*/
-		findMapByCateId = Map.of(8, p -> washerrepo.findAll(p),
-				 		 	 2, p -> cookerrepo.findAll(p),
-				 		 	 1, p -> acrepo.findAll(p),
-				 		 	 3, p -> fanrepo.findAll(p),
-				 		 	 4, p -> fridgerepo.findAll(p),
-				 		 	 5, p -> stoverepo.findAll(p),
-				 		 	 6, p -> tvrepo.findAll(p),
-				 		 	 7, p -> vcrepo.findAll(p)
+		findMapByCateIdPagination = Map.of(8, p -> washerrepo.findAll(p),
+	 		 	 						   2, p -> cookerrepo.findAll(p),
+	 		 	 						   1, p -> acrepo.findAll(p),
+	 		 	 						   3, p -> fanrepo.findAll(p),
+	 		 	 						   4, p -> fridgerepo.findAll(p),
+	 		 	 						   5, p -> stoverepo.findAll(p),
+	 		 	 						   6, p -> tvrepo.findAll(p),
+	 		 	 						   7, p -> vcrepo.findAll(p)
+	 			 						   );
+		
+		findMapByCateId = Map.of(8, () -> washerrepo.findAll(),
+				 		 	 2, () -> cookerrepo.findAll(),
+				 		 	 1, () -> acrepo.findAll(),
+				 		 	 3, () -> fanrepo.findAll(),
+				 		 	 4, () -> fridgerepo.findAll(),
+				 		 	 5, () -> stoverepo.findAll(),
+				 		 	 6, () -> tvrepo.findAll(),
+				 		 	 7, () -> vcrepo.findAll()
 				 			 );
 		
 		findMapByItemId = Map.of(8, id -> washerrepo.findById(id),
@@ -126,15 +140,44 @@ public class ItemServiceImpl implements ItemService {
         updateMap.put(8, (data, image) -> this.updateWasher(data, image));
 	}
 	
+	// =================== các dịch vụ duyệt =====================
+	@Override
+	public List<Item> findAll() {
+		return itemrepo.findAll();
+	}
+	
+	@Override
+	public Optional<Item> findById(Long id) {
+		return itemrepo.findById(id);
+	}
+	
 	// tìm kiếm item bằng itemId
 	@Override
 	public Optional<? extends Item> findById(Long id, int cateId) {
 		return findMapByItemId.get(cateId).apply(id);
 	}
 	
-	// tìm kiếm có phân trang và sắp xếp theo tên phân loại (category name)
+	// tìm tất cả các item và có phân trang
 	@Override
-	public Page<? extends Item> findAndSortItemById(int cateid, int currentPage, int rsPerPage, boolean asc) {
+	public Page<Item> findAllandSortByPrice(int currentPage, int rsPerPage, boolean asc) {
+
+		Sort sortPrice;
+		if (asc) {
+			sortPrice = Sort.by("price").ascending();
+		} else {
+			sortPrice = Sort.by("price").descending();
+		}
+
+		Pageable pageable = PageRequest.of(currentPage, rsPerPage, sortPrice);
+		
+		Page<Item> returnPage = itemrepo.findAll(pageable);
+
+		return returnPage;
+	}
+	
+	// tìm kiếm có phân trang theo id phân loại và sắp xếp theo giá cả (category name)
+	@Override
+	public Page<? extends Item> findItemByIdAndSortByPrice(int cateid, int currentPage, int rsPerPage, boolean asc) {
 
 		Sort sortPrice;
 		if (asc) {
@@ -145,17 +188,31 @@ public class ItemServiceImpl implements ItemService {
 
 		Pageable pageable = PageRequest.of(currentPage, rsPerPage, sortPrice);
 
-		Page<? extends Item> returnPage = findMapByCateId.get(cateid).apply(pageable);
+		Page<? extends Item> returnPage = findMapByCateIdPagination.get(cateid).apply(pageable);
 
 		return returnPage;
 	}
 		
+	// tìm danh sách item dựa trên cateid có phân trang
+	@Override
+	public Page<? extends Item> findAllById(int cateId, Pageable pageable) {
+		return findMapByCateIdPagination.get(cateId).apply(pageable);
+	}
+	
+	// tìm danh sách item dựa trên cateid không phân trang
+	@Override
+	public List<? extends Item> findAllById(int cateId) {
+		return findMapByCateId.get(cateId).get();
+	}
+	
+	// ===============================================================
+	
 	// xóa item
 	@Override
 	public void deleteById(Long id) {
 		itemrepo.deleteById(id);
 	}
-	
+
 	// thêm hoặc cập nhật item
 	@Override
 	public Optional<? extends Item> saveItem(int cateId, Map<String, Object> data, String imagePath, boolean isUpdate) {
@@ -165,18 +222,6 @@ public class ItemServiceImpl implements ItemService {
 		} else {
 			return updateMap.get(cateId).apply(data, imagePath);
 		}
-		/*
-		if (!isUpdate) {
-			Item item = saveMap.get(cateId).apply(data, imagePath);
-			return Optional.of(item);
-		} else {
-			Item item = updateMap.get(cateId).apply(data, imagePath).orElse(null);
-			if (item == null) {
-				return Optional.empty();
-			} else {
-				return Optional.of(item);
-			}
-		}*/
 	}
 
 	private Item addCommonAttr(Item item, Map<String, Object> data, String imagePath) {
