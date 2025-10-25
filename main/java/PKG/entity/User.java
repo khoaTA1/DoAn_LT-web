@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 
@@ -21,13 +19,13 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@NotBlank(message = "Email không được để trống!")
-	@Email(message = "Email không hợp lệ")
+
 	@Column(name = "email", columnDefinition = "varchar(50)")
 	private String email;
 	
-	@NotBlank(message = "Tên đăng nhập không được để trống!")
+	@Column(name = "emailverify", columnDefinition = "bit")
+	private boolean emailVerify;
+	
 	@Column(name = "uname", columnDefinition = "varchar(50)")
 	private String userName;
 	

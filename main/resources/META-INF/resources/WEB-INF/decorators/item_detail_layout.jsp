@@ -38,8 +38,8 @@
 			</div>
 			
 			<!-- thông tin thanh toán -->
-			<div class="col-md-2">
-				<jsp:include page="/WEB-INF/fragments/payment.jsp" />
+			<div class="col-md-3 px-0">
+				<jsp:include page="/WEB-INF/fragments/price_inf.jsp" />
 			</div>
 		</div>
 	</div>

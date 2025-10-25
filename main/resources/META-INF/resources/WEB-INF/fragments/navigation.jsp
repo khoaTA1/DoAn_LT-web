@@ -2,9 +2,10 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 
+
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
 	<div class="container">
-		<a class="navbar-brand text-danger fw-bold" href="/webpage">Điện
+		<a class="navbar-brand text-danger fw-bold" href="/homepage">Điện
 			máy đỏ</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 			data-bs-target="#navGuest">
@@ -22,11 +23,11 @@
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle text-danger fw-bold" href="#"
-						role="button" data-bs-toggle="dropdown"> <sec:authentication
+						class="nav-link dropdown-toggle text-danger fw-bold" id="userDropdown" href="#"
+						role="button" data-bs-toggle="dropdown" > <sec:authentication
 								property="name" />
 					</a>
-						<ul class="dropdown-menu dropdown-menu-end">
+						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" >
 							<li><a class="dropdown-item" href="/user/profile">Hồ sơ
 									cá nhân</a></li>
 							<li><a class="dropdown-item" href="/user/cart">Giỏ hàng</a></li>

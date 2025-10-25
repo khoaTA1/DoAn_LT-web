@@ -1,20 +1,29 @@
 package PKG.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import PKG.entity.User;
+import PKG.service.UserService;
 
 
 @Controller
 @RequestMapping("/")
 public class RedirectController {
+
+	@Autowired
+	UserService userserv;
 	
 	@GetMapping("redirect/test")
 	public String rtest() {
 		return "test";
 	}
 	
-	@GetMapping({"", "webpage"})
+	@GetMapping({"", "homepage"})
 	public String rwebpage() {
 		
 		return "redirect:/item/getall";
@@ -34,22 +43,31 @@ public class RedirectController {
 	
 	@GetMapping("redirect/gencode")
 	public String rgencode() {
-		return "forgotpassw/gencodepage";
+		return "otpcodeactions/gencodepage";
 	}
 	
 	@GetMapping("redirect/entercode")
 	public String rentercode() {
-		return "forgotpassw/entercodepage";
+		return "otpcodeactions/entercodepage";
 	}
 	
-	@GetMapping("redirect/adminpage")
-	public String rforgetPassw() {
+	@GetMapping("redirect/changepassw")
+	public String rchangepassw() {
+		return "changepassw";
+	}
+	
+	@GetMapping("admin/adminpage")
+	public String radminpage() {
 		return "adminpage";
 	}
 	
 	@GetMapping("user/profile")
-	public String rUserProfile() {
+	public String rUserProfile(ModelMap model) {
 		
-		return "/user/profile-page";
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userserv.findByUserName(username).orElse(null);
+		
+		model.addAttribute("account", user);
+		return "user/profilepage";
 	}
 }

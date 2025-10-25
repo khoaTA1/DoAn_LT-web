@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/")
 public class RenderImage {
-	private static final long serialVersionUID = 1L;
+	//private static final long serialVersionUID = 1L;
 
 	@GetMapping("image")
 	protected void renderImage(@RequestParam("fname") String fileName, HttpServletResponse resp) throws IOException {

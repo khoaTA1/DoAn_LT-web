@@ -1,5 +1,7 @@
 package PKG.service.impl;
 
+import java.sql.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -46,7 +48,10 @@ public class AccountAuthServiceImpl implements AccountAuthService{
             User newUser = new User();
             newUser.setUserName(username);
             newUser.setEmail(email);
+            newUser.setEmailVerify(false);
             newUser.setRole("USER");
+            newUser.setCreatedDate(new Date(System.currentTimeMillis()));
+            
             userrepo.save(newUser);
              
             // Lấy id của user mới tạo
@@ -78,6 +83,15 @@ public class AccountAuthServiceImpl implements AccountAuthService{
     	} else {
     		throw new RuntimeException("Chứng chỉ không hợp lệ");
     	}
+    }
+    
+    @Override
+	public boolean checkPassword(UserDetails userDetails, String password) {
+    	if (passencoder.matches(password, userDetails.getPassword())) {
+    		return true;
+    	}
+    	
+    	return false;
     }
     
     // cập nhật mật khẩu

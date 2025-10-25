@@ -3,7 +3,6 @@ package PKG.controller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,21 +34,19 @@ import jakarta.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/item")
 public class ItemController {
-	
+
 	private static final String defaultResultPerPage = "5";
-	
+
 	@Autowired
 	ItemService itemserv;
-	
+
 	@Autowired
 	CategoryService cateserv;
-	
+
 	// thêm item
 	@PostMapping("addorupdateitem")
-	public String addItem(ModelMap model, 
-			@RequestParam("data") String dataChain,
-			@RequestParam("image") MultipartFile image, 
-			@RequestParam("isupdate") boolean isUpdate)
+	public String addItem(ModelMap model, @RequestParam("data") String dataChain,
+			@RequestParam("image") MultipartFile image, @RequestParam("isupdate") boolean isUpdate)
 			throws JsonProcessingException {
 
 		String imagePath = "";
@@ -103,12 +99,12 @@ public class ItemController {
 				imagePath = "itemImages/" + imageName;
 
 				Item item = itemserv.saveItem(cateId, dataMap, imagePath, isUpdate).orElse(null);
-				
+
 				if (item == null) {
 					model.addAttribute("msg", "Lỗi hệ thống!");
 					return "tb";
 				}
-				
+
 				image.transferTo(new File(DirectoryPath.dir + imagePath));
 				model.addAttribute("msg", "Thêm sản phẩm thành công");
 				model.addAttribute("item", item);
@@ -120,57 +116,56 @@ public class ItemController {
 			}
 		}
 	}
-	
+
 	// xóa item
 	@PostMapping("delete")
 	public String deleteItem(ModelMap model, @RequestParam("itemid") Long itemId) {
 		itemserv.deleteById(itemId);
-		
+
 		return "";
 	}
-	
+
 	// đọc chi tiết 1 item
 	@GetMapping("getinfo/{itemid}")
 	public String getItemById(ModelMap model, @PathVariable("itemid") Long itemId, HttpServletResponse resp) {
-		
+
 		Optional<Item> item = itemserv.findById(itemId);
-		
+
 		if (item.isEmpty()) {
 			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-	        return "homepage/item_detail";
+			return "homepage/item_detail";
 		}
-		
+
 		Optional<? extends Item> returnItem = itemserv.findById(itemId, item.get().getCategoryId());
-		
+
 		if (returnItem.isEmpty()) {
 			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-	        return "homepage/item_detail";
+			return "homepage/item_detail";
 		}
-		
+
 		model.addAttribute("itemdetail", returnItem.get());
 		model.addAttribute("imagepath", returnItem.get().getImage());
 		return "homepage/item_detail";
 	}
-	
-	
-	// ================ các chức năng duyệt item có phân trang và sắp xếp ======================
-	
+
+	// ================ các chức năng duyệt item có phân trang và sắp xếp
+	// ======================
+
 	// duyệt tất cả item có phân trang (dùng cho khi mới load trang chủ)
 	@GetMapping("getall")
-	public String getAllItem(ModelMap model,
-			@RequestParam(name = "page", defaultValue = "1") int currentPage,
+	public String getAllItem(ModelMap model, @RequestParam(name = "page", defaultValue = "1") int currentPage,
 			@RequestParam(name = "resultPerPage", defaultValue = defaultResultPerPage) int rsPerPage,
 			@RequestParam(name = "isAsc", defaultValue = "true") boolean asc) {
-		
+
 		Page<Item> itemPage = itemserv.findAllandSortByPrice(currentPage - 1, rsPerPage, asc);
-		
+
 		model.addAttribute("listItem", itemPage.getContent());
 		model.addAttribute("totalPages", itemPage.getTotalPages());
 		model.addAttribute("page", currentPage);
-		
+
 		return "homepage/items_list";
 	}
-	
+
 	// duyệt item có phân trang theo itemid và sắp xếp theo giá
 	@GetMapping("sort-by-price/{cateid}")
 	public String getAllandSortbyName(ModelMap model, @PathVariable int cateid,
@@ -186,51 +181,50 @@ public class ItemController {
 
 		return "homepage/items_list";
 	}
-	
+
 	@GetMapping("search-bar")
-	public String searchBar(ModelMap model, 
-			@RequestParam("keyword") String keyword, 
+	public String searchBar(ModelMap model, @RequestParam("keyword") String keyword,
 			@RequestParam(name = "page", defaultValue = "1") int currentPage,
 			@RequestParam(name = "resultPerPage", defaultValue = defaultResultPerPage) int rsPerPage,
 			@RequestParam(name = "isAsc", defaultValue = "true") boolean asc) {
-		
+
 		// tìm danh sách các category có tên thỏa mãn từ khóa
 		List<Category> categories = cateserv.findByCategoryNameContainingIgnoreCase(keyword);
-		
+
 		if (categories == null) {
-	        // Nếu không tìm thấy category thì trả về danh sách rỗng hoặc thông báo
-	        model.addAttribute("msg", "Không tìm thấy danh mục phù hợp với từ khóa: " + keyword);
-	        return "homepage/items_list";
-	    }
+			// Nếu không tìm thấy category thì trả về danh sách rỗng hoặc thông báo
+			model.addAttribute("msg", "Không tìm thấy danh mục phù hợp với từ khóa: " + keyword);
+			return "homepage/items_list";
+		}
 
 		// tìm và nối danh sách các item tương ứng
-	    List<Item> listItem = new ArrayList<>();
-	    Pageable pageable = PageRequest.of(currentPage - 1, rsPerPage);
-		
-	    for (Category cate : categories) {
-	        // Giả sử bạn có service lấy Page<Item> theo categoryId
-	        List<? extends Item> itemsPage = itemserv.findAllById(cate.getId());
-	        listItem.addAll(itemsPage);
-	    }
-	    
-	    // sắp xếp lại danh sách theo giá tiền
-	    Comparator<Item> comparator = Comparator.comparing(Item::getPrice);
-	    if (!asc) {
-	        comparator = comparator.reversed();
-	    }
-	    listItem.sort(comparator);
-	    
-	    // phân trang kết quả
-	    int startIndex = (currentPage - 1) * rsPerPage;
-	    int endIndex = Math.min(startIndex + rsPerPage, listItem.size());
-	    List<Item> subListItem = listItem.subList(startIndex, endIndex);
+		List<Item> listItem = new ArrayList<>();
 
-	    Page<Item> returnPage = new PageImpl<>(subListItem, PageRequest.of(currentPage - 1, rsPerPage), listItem.size());
+		for (Category cate : categories) {
+			// Giả sử bạn có service lấy Page<Item> theo categoryId
+			List<? extends Item> itemsPage = itemserv.findAllById(cate.getId());
+			listItem.addAll(itemsPage);
+		}
+
+		// sắp xếp lại danh sách theo giá tiền
+		Comparator<Item> comparator = Comparator.comparing(Item::getPrice);
+		if (!asc) {
+			comparator = comparator.reversed();
+		}
+		listItem.sort(comparator);
+
+		// phân trang kết quả
+		int startIndex = (currentPage - 1) * rsPerPage;
+		int endIndex = Math.min(startIndex + rsPerPage, listItem.size());
+		List<Item> subListItem = listItem.subList(startIndex, endIndex);
+
+		Page<Item> returnPage = new PageImpl<>(subListItem, PageRequest.of(currentPage - 1, rsPerPage),
+				listItem.size());
 
 		model.addAttribute("listItem", returnPage.getContent());
 		model.addAttribute("totalPages", returnPage.getTotalPages());
 		model.addAttribute("page", currentPage);
-		
+
 		return "homepage/items_list";
 	}
 }

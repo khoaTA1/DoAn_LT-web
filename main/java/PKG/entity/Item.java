@@ -18,22 +18,24 @@ public abstract class Item {
 	@Column(name="categoryid", columnDefinition = "int")
     private int categoryId;
 	
-	@Column( name  = "name", columnDefinition = "nvarchar(100)")
+	@Column(name  = "name", columnDefinition = "nvarchar(100)")
     private String name;
 	
-	@Column (name = "price", columnDefinition = "float")
+	@Column(name = "price", columnDefinition = "float")
     private double price;
 	
-	@Column( name  = "image", columnDefinition = "varchar(255)")
+	@Column(name  = "image", columnDefinition = "varchar(255)")
     private String image;
 	
-	@Column (name = "discount", columnDefinition = "float")
+	@Column(name = "discount", columnDefinition = "float")
     private double discount;
 	
-	@Column( name  = "origin", columnDefinition = "nvarchar(100)")
+	@Column(name = "origin", columnDefinition = "nvarchar(100)")
     private String origin;
 	
-	@Column( name  = "brand", columnDefinition = "varchar(255)")
+	@Column(name = "brand", columnDefinition = "varchar(255)")
     private String brand;
     
+	@Column(name = "description", columnDefinition = "nvarchar(MAX)")
+	private String description;
 }

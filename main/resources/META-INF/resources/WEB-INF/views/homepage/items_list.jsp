@@ -10,11 +10,22 @@
     </div>
 </c:if>
 
+<!-- lưu jwt token nếu là chuyển hướng sau khi đăng nhập -->
+<c:if test="${not empty JWT}">
+    <script>
+        // Lấy JWT từ server-rendered model
+        var jwtToken = "${JWT}";
+        // Lưu vào localStorage
+        sessionStorage.setItem("jwtToken", jwtToken);
+        console.log("Lưu jwt token vào sessionStorage:", jwtToken);
+    </script>
+</c:if>
+
 <div class="row">
 	<c:forEach var="p" items="${listItem}">
 		<div class="col-md-4 mb-4">
 			<div class="card item-card h-100"
-				data-item='{"name":"${p.name}","origin":"${p.origin}","brand":"${p.brand}","image":"${p.image}"}'
+				data-id="${p.id}"
 				onclick="window.location.href='/item/getinfo/${p.id}'">
 				<img src="/image?fname=${p.image}" alt="${p.name}"
 					class="card-img-top" />

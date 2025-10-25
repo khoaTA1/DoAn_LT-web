@@ -13,6 +13,8 @@
 	rel="stylesheet"
 	integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
 	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <style>
 #item-preview {
 	position: fixed;
@@ -70,12 +72,40 @@
 
 		itemCards.forEach(card => {
 			card.addEventListener('mouseenter', function () {
-				const data = JSON.parse(this.getAttribute('data-item'));
-				document.getElementById('preview-name').textContent = "Tên sản phẩm: " + data.name;
-				document.getElementById('preview-origin').textContent = "Nguồn gốc xuất xứ:" + data.origin;
-				document.getElementById('preview-brand').textContent = "Nhãn hiệu:" + data.brand;
-				document.getElementById('preview-img').src = "/image?fname=" + encodeURIComponent(data.image);
-				preview.style.display = 'block';
+				const itemid = this.getAttribute('data-id');
+				
+                preview.style.display = 'block';
+                
+                // gọi api
+				fetch('/api/getitem/' + itemid)
+	                .then(res => {
+	                    if (!res.ok) throw new Error("Vui lòng thử lại");
+	                    return res.json();
+	                })
+	                .then(json => {
+	                	console.log(json); 
+	                    const body = document.getElementById('preview-body');
+	                    const img = document.getElementById('preview-img');
+
+	                    // Xóa nội dung cũ
+	                    body.innerHTML = "";  
+
+	                    // Kiểm tra và hiển thị dữ liệu trả về từ API
+	                    for (const key in json) {
+	                        if (key === "image") {
+	                            img.src = "/image?fname=" + encodeURIComponent(json[key]);
+	                            continue;
+	                        }
+
+	                        // Tạo thẻ <p> cho mỗi cặp dữ liệu json
+	                        const p = document.createElement('p');
+	                        p.textContent = key + ": " + json[key];
+	                        body.appendChild(p);
+	                    }
+	                })
+	                .catch(err => {
+	                    console.error(err);
+	                });
 			});
 			card.addEventListener('mouseleave', function () {
 				preview.style.display = 'none';
@@ -83,6 +113,12 @@
 		});
 	});
 	</script>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+		crossorigin="anonymous"></script>
+
 	<footer class="bg-danger text-white text-center py-3 mt-5">
 		© 2025 Công ty Điện Máy Đỏ. Giấy phép đăng ký kinh doanh (ví dụ cho
 		mục đích học thuật): 0123456789 do ... cấp ngày ... <br> Địa chỉ:
@@ -91,9 +127,5 @@
 		trách nhiệm nội dung: Nguyễn Hương Giang, Trương Anh Khoa, Nguyễn Tấn
 		Phát, Cao Minh Đạt.
 	</footer>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-		crossorigin="anonymous"></script>
 </body>
 </html>
