@@ -26,4 +26,20 @@
 * Đặt tên root package là PKG hoặc thay đổi tên thư mục phù hợp.
 * Ghi đè thư mục main từ mã nguồn vào trong thư mục src (src/main).
 * Thay thế file pom.xml từ mã nguồn.
-* Tạo thư mục lưu trữ tài nguyên theo đúng cấu trúc sau:
+* Tạo thư mục lưu trữ tài nguyên (res/itemImages) theo đúng cấu trúc sau:
+```
+Thư mục dự án
+spring boot  
+ | ----- ...
+ | ----- src
+ |        | ------ main
+ |                   | ----- java
+ |                   | ----- resources
+ |        | ------ ...
+ | ----- ...       
+ | ----- res
+ |        | ----- itemImages 
+ |   
+ | ----- ...
+ | ----- pom.xml
+```
