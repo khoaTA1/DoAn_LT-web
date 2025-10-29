@@ -1,0 +1,376 @@
+/* Thêm font chữ Inter hiện đại */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+}
+
+html, body {
+   height: 100%;
+   overflow: hidden;
+}
+
+body {
+   margin: 0;
+   padding: 0;
+   font-weight: 400;
+   font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+   font-size: 1rem;
+   line-height: 1.58;
+   color: #212121; /* Màu chữ đen/xám đậm */
+   
+   /* Nền gradient */
+   background: linear-gradient(135deg, #00dbde, #fc00ff);
+   background-size: cover;
+   background-repeat: no-repeat;
+
+   height: 100%;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+}
+
+.clearfix:after {
+   display: block;
+   content: "";
+   clear: both;
+}
+
+.hidden {
+   display: none;
+}
+
+/* Form control "xịn" hơn */
+.form-control {
+   width: 100%;
+   min-height: 44px;
+   font-size: 15px;
+   border: 1px solid #E0E0E0; /* Border xám nhạt */
+   border-radius: 8px; /* Bo góc mềm mại */
+   transition: all 0.3s ease;
+   background-color: #fff;
+}
+
+/* Hiệu ứng focus viền đỏ */
+.form-control:focus {
+   border-color: #E53935; /* Màu đỏ khi focus */
+   box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.15);
+   outline: none;
+}
+
+.form-group {
+   margin-bottom: 20px;
+}
+
+input {
+   padding-left: 12px;
+   outline: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+   margin-top: 20px;
+   margin-bottom: 20px;
+   font-weight: 600;
+}
+
+h1 {
+   font-size: 1.8em;
+}
+
+a {
+   color: #E53935; /* Link màu đỏ */
+}
+
+/* Nút bấm hiện đại */
+button {
+   box-shadow: none;
+   border: 1px solid transparent;
+   font-size: 14px;
+   font-weight: 600;
+   outline: none;
+   line-height: 100%;
+   white-space: nowrap;
+   vertical-align: middle;
+   padding: 0.6rem 1.2rem;
+   border-radius: 8px;
+   transition: all 0.3s ease;
+   cursor: pointer;
+   min-height: 44px;
+}
+
+button:hover {
+   transform: translateY(-2px); /* Hiệu ứng "nhấc" nút */
+   opacity: 0.9;
+}
+
+button.default {
+   background-color: #f0f0f0;
+   color: #333;
+   border: 1px solid #ddd;
+}
+
+/* Nút chính màu gradient giống nền */
+button.primary {
+   background: linear-gradient(135deg, #00dbde, #fc00ff);
+   box-shadow: none; /* Xóa bóng đổ màu đỏ cũ */
+   color: #fff;
+   border: none; /* Đảm bảo không có viền */
+}
+
+/* Nút phụ (ví dụ: Start Chatting) màu gradient giống nền */
+button.accent {
+   background: linear-gradient(135deg, #00dbde, #fc00ff);
+   box-shadow: none; /* Xóa bóng đổ cũ nếu có */
+   color: #fff;
+   border: none; /* Đảm bảo không có viền */
+}
+
+#username-page {
+   text-align: center;
+}
+
+/* Khung login/chat bằng thẻ trắng */
+.username-page-container {
+   background: #fff;
+   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+   border-radius: 12px;
+   width: 100%;
+   max-width: 500px;
+   display: inline-block;
+   margin-top: 42px;
+   vertical-align: middle;
+   position: relative;
+   padding: 40px 55px;
+   min-height: 250px;
+   position: absolute;
+   top: 50%;
+   left: 0;
+   right: 0;
+   margin: 0 auto;
+   margin-top: -160px;
+}
+
+/* --- ĐÂY LÀ CODE AVATAR HACKER MỚI --- */
+.username-page-container::before {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px auto; 
+    
+    /* SVG icon mặt nạ hacker (Guy Fawkes mask), màu xám nhạt */
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23E0E0E0"><path d="M22 12c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2s10 4.48 10 10zM12 4c-3.87 0-7 3.13-7 7 0 1.48.46 2.85 1.25 4l-.6 2.2c-.13.48.33.94.81.81l2.2-.6c1.15.79 2.52 1.25 4 1.25 3.87 0 7-3.13 7-7s-3.13-7-7-7zm-1.5 8c-.83 0-1.5-.67-1.5-1.5S9.67 9 10.5 9s1.5.67 1.5 1.5S11.33 12 10.5 12zm3 0c-.83 0-1.5-.67-1.5-1.5S12.67 9 13.5 9s1.5.67 1.5 1.5S14.33 12 13.5 12zM12 16.5c-2.07 0-3.83-1.35-4.49-3.21.36-.18.73-.32 1.13-.41 1.05.77 2.31 1.21 3.36 1.21s2.3-.44 3.36-1.21c.4.09.77.23 1.13.41-1.44 1.86-3.22 3.21-4.49 3.21z"/></svg>');
+    
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+/* --- HẾT CODE AVATAR --- */
+
+.username-page-container .username-submit {
+   margin-top: 10px;
+}
+
+#chat-page {
+   position: relative;
+   height: 100%;
+}
+
+.chat-container {
+   max-width: 700px;
+   margin-left: auto;
+   margin-right: auto;
+   background-color: #fff;
+   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+   border-radius: 12px;
+   margin-top: 30px;
+   height: calc(100% - 60px);
+   max-height: 600px;
+   position: relative;
+   display: flex;
+   flex-direction: column;
+}
+
+.chat-header {
+   text-align: center;
+   padding: 15px;
+   border-bottom: 1px solid #f0f0f0;
+   background: #fafafa; /* Header chat màu xám nhạt */
+   border-top-left-radius: 12px;
+   border-top-right-radius: 12px;
+}
+
+.chat-header h2 {
+   margin: 0;
+   font-weight: 600;
+   color: #D90000; /* Tiêu đề chat màu đỏ */
+}
+
+/* Khung chat */
+#chat-page ul {
+   list-style-type: none;
+   background-color: #FFF;
+   margin: 0;
+   overflow: auto;
+   overflow-y: scroll;
+   padding: 20px;
+   flex-grow: 1;
+   height: 100px; /* Chiều cao tự động */
+}
+
+/* Scrollbar đẹp hơn */
+#chat-page ul::-webkit-scrollbar {
+   width: 6px;
+}
+#chat-page ul::-webkit-scrollbar-track {
+   background: #f1f1f1;
+   border-radius: 10px;
+}
+#chat-page ul::-webkit-scrollbar-thumb {
+   background: #ccc;
+   border-radius: 10px;
+}
+#chat-page ul::-webkit-scrollbar-thumb:hover {
+   background: #aaa;
+}
+
+
+#chat-page ul li {
+   line-height: 1.5rem;
+   padding: 12px 0;
+   margin: 0;
+   border-bottom: 1px solid #f4f4f4;
+}
+#chat-page ul li:last-child {
+   border-bottom: none;
+}
+
+#chat-page ul li p {
+   margin: 0;
+}
+
+/* Tin nhắn sự kiện */
+#chat-page .event-message {
+   width: 100%;
+   text-align: center;
+   clear: both;
+}
+#chat-page .event-message p {
+   color: #999;
+   font-size: 14px;
+   font-style: italic;
+   word-wrap: break-word;
+}
+
+/* Tin nhắn chat */
+#chat-page .chat-message {
+   padding-left: 68px;
+   position: relative;
+}
+
+/* Avatar màu đỏ */
+#chat-page .chat-message i {
+   position: absolute;
+   width: 48px;
+   height: 48px;
+   overflow: hidden;
+   left: 10px;
+   display: inline-block;
+   vertical-align: middle;
+   font-size: 20px;
+   line-height: 48px;
+   color: #fff;
+   text-align: center;
+   border-radius: 50%;
+   font-style: normal;
+   text-transform: uppercase;
+   background: #E53935; /* Avatar màu đỏ */
+}
+
+#chat-page .chat-message span {
+   color: #333;
+   font-weight: 600;
+}
+
+#chat-page .chat-message p {
+   color: #43464b;
+}
+
+/* Form nhập tin nhắn */
+#chat-page #messageForm {
+   padding: 20px;
+   border-top: 1px solid #f0f0f0;
+   background: #fafafa;
+   border-bottom-left-radius: 12px;
+   border-bottom-right-radius: 12px;
+}
+
+/* Nối liền ô input và nút Gửi */
+#messageForm .input-group input {
+   float: left;
+   width: calc(100% - 90px);
+   border-top-right-radius: 0;
+   border-bottom-right-radius: 0;
+   border-right: 0;
+}
+
+#messageForm .input-group button {
+   float: left;
+   width: 80px;
+   height: 44px; /* Đồng bộ chiều cao */
+   margin-left: 0;
+   border-top-left-radius: 0;
+   border-bottom-left-radius: 0;
+}
+
+.connecting {
+   padding-top: 5px;
+   text-align: center;
+   color: #999;
+   position: absolute;
+   top: 65px;
+   width: 100%;
+   font-size: 0.9rem;
+}
+
+
+@media screen and (max-width: 730px) {
+   .chat-container {
+       margin-left: 10px;
+       margin-right: 10px;
+       margin-top: 10px;
+       height: calc(100% - 20px);
+       max-height: none;
+   }
+}
+@media screen and (max-width: 480px) {
+   .chat-container {
+       height: calc(100% - 20px);
+       margin: 10px;
+   }
+   .username-page-container {
+       width: auto;
+       margin-left: 15px;
+       margin-right: 15px;
+       padding: 25px;
+   }
+   #chat-page ul {
+       height: auto;
+   }
+   #messageForm .input-group button {
+       width: 65px;
+   }
+   #messageForm .input-group input {
+       width: calc(100% - 70px);
+   }
+   .chat-header {
+       padding: 10px;
+   }
+   .connecting {
+       top: 60px;
+   }
+   .chat-header h2 {
+       font-size: 1.1em;
+   }
+}
