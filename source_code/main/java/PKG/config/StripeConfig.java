@@ -8,10 +8,11 @@ import jakarta.annotation.PostConstruct;
 
 @Configuration
 public class StripeConfig {
-	private String stripe_api_key = "sk_test_51SMg3aKQuP6iqjXYc8SjQWHM6BiMlPwLumOa4jzgCeh8MgXbP3fuNVe32ijyCgMiOB2pxgiFSfUyMk6IzRifLddN00JhFfGWs9";
+	private String stripe_api_key = "sk_test_khongduocxem";
 	
 	@PostConstruct
 	public void configureStripe() {
 		Stripe.apiKey = stripe_api_key;
 	}
 }
+
