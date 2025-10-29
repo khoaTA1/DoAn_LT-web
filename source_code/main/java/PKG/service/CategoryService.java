@@ -1,0 +1,32 @@
+package PKG.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import PKG.entity.Category;
+
+public interface CategoryService {
+
+	long count();
+
+	boolean existsById(Integer id);
+
+	Optional<Category> findById(Integer id);
+
+	Page<Category> findAll(Pageable pageable);
+
+	<S extends Category> S save(S entity);
+
+	Page<Category> findByCategoryNameContaining(String name, Pageable pageable);
+
+	List<Category> findByCategoryNameContaining(String name);
+
+	List<Category> findByCategoryNameContainingIgnoreCase(String catename);
+
+	List<Category> findAll();
+
+	
+}
