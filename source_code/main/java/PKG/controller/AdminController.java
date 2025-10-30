@@ -91,8 +91,7 @@ public class AdminController {
     }
 
     @PostMapping("/user/edit")
-    public String updateUser(@Validated @ModelAttribute("user") inputEditUser inputUser, BindingResult error) {
-    	
+    public String updateUser(ModelMap model, @Validated @ModelAttribute("user") inputEditUser inputUser, BindingResult error) {
     	if (error.hasErrors()) {
     		System.out.println("binding result");
             return "admin/user_edit";
@@ -105,8 +104,15 @@ public class AdminController {
     		return "redirect:/admin/user";
     	}
     	
+		// kiểm tra username hay email đã tồn tại chưa
+		if (!user.getUserName().equals(inputUser.getUserName()) && userService.existsByUserName(inputUser.getUserName())
+				|| !user.getEmail().equals(inputUser.getEmail()) && userService.existsByEmail(inputUser.getEmail())) {
+			model.addAttribute("msg", "Trùng tên đăng nhập hoặc email");
+			return "admin/user_edit";
+		}
+
     	// cập nhật mật khẩu
-    	AAS.changePass(user.getUserName(), inputUser.getNewPassw());
+		AAS.changePass(user.getUserName(), inputUser.getNewPassw());
     	
     	// cập nhật thông tin user
     	user.setUserName(inputUser.getUserName());
