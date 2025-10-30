@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
 <div class="container py-4">
     <h4 class="fw-bold text-primary mb-4">Chỉnh sửa thông tin người dùng</h4>
 
     <form:form action="${pageContext.request.contextPath}/admin/user/edit" method="post" modelAttribute="user">
-    	<form:errors path="*" element="ul" />
-        <input type="hidden" name="id" value="${user.id}">
+    	<form:errors path="*" element="ul" class="alert alert-info" />
+		<c:if test="${not empty msg}">
+			<div class="alert alert-info">${msg}</div>
+		</c:if>
+		<input type="hidden" name="id" value="${user.id}">
 
         <div class="mb-3">
             <label class="form-label">Tên đăng nhập</label>
